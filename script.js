@@ -388,22 +388,28 @@ document.addEventListener('DOMContentLoaded', () => {
   function copyToClipboard() {
     // 如果还没有生成卡号，提示用户先生成一个
     if (!currentCardData.number) {
-      alert('请先生成一个卡号。');
+      alert('Please generate a card number first.');
       return;
     }
     
-    // 准备要复制的文本内容
-    const copyText = `卡号: ${currentCardData.number.replace(/\s/g, '')}\n有效期: ${currentCardData.expiry}\nCVV: ${currentCardData.cvv}`;
+    // 准备要复制的JSON格式文本内容
+    const copyData = {
+      card_number: currentCardData.number.replace(/\s/g, ''),
+      expiry: currentCardData.expiry,
+      cvv: currentCardData.cvv
+    };
+    
+    const jsonString = JSON.stringify(copyData, null, 2);
     
     // 使用剪贴板API复制到剪贴板
-    navigator.clipboard.writeText(copyText)
+    navigator.clipboard.writeText(jsonString)
       .then(() => {
         // 显示复制成功动画
-        showCopySuccessAnimation('卡信息已复制到剪贴板');
+        showCopySuccessAnimation('Card information copied to clipboard (JSON format)');
       })
       .catch(err => {
-        console.error('复制卡详情失败:', err);
-        alert('复制失败。请手动选择并复制。');
+        console.error('Failed to copy card details:', err);
+        alert('Copy failed. Please select and copy manually.');
       });
   }
   
@@ -413,19 +419,25 @@ document.addEventListener('DOMContentLoaded', () => {
   function copyCardNumber() {
     // 如果还没有生成卡号，提示用户先生成一个
     if (!currentCardData.number) {
-      alert('请先生成一个卡号。');
+      alert('Please generate a card number first.');
       return;
     }
     
-    // 仅复制卡号
-    navigator.clipboard.writeText(currentCardData.number.replace(/\s/g, ''))
+    // 仅复制卡号，使用JSON格式
+    const copyData = {
+      card_number: currentCardData.number.replace(/\s/g, '')
+    };
+    
+    const jsonString = JSON.stringify(copyData, null, 2);
+    
+    navigator.clipboard.writeText(jsonString)
       .then(() => {
         // 显示复制成功动画
-        showCopySuccessAnimation('卡号已复制到剪贴板');
+        showCopySuccessAnimation('Card number copied to clipboard (JSON format)');
       })
       .catch(err => {
-        console.error('复制卡号失败:', err);
-        alert('复制失败。请手动选择并复制。');
+        console.error('Failed to copy card number:', err);
+        alert('Copy failed. Please select and copy manually.');
       });
   }
   
@@ -433,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * 显示复制成功动画
    * @param {string} message - 要显示的消息文本
    */
-  function showCopySuccessAnimation(message = '卡信息已复制到剪贴板') {
+  function showCopySuccessAnimation(message = 'Card information copied to clipboard') {
     // 创建复制成功提示元素
     const successToast = document.createElement('div');
     successToast.className = 'fixed bottom-6 right-6 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 z-50 transition-all duration-500 transform';
