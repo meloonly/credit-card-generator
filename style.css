@@ -1,0 +1,646 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --primary-bg: linear-gradient(135deg, #121925 0%, #1d2a43 100%);
+  --card-bg: linear-gradient(135deg, #0e1729 0%, #1e2c44 100%);
+  --visa-gradient: linear-gradient(135deg, #0062ad 0%, #00a5ff 100%);
+  --mastercard-gradient: linear-gradient(135deg, #ff5500 0%, #ffaa00 100%);
+  --amex-gradient: linear-gradient(135deg, #132663 0%, #2671b9 100%);
+  --discover-gradient: linear-gradient(135deg, #ff6600 0%, #ffaa00 100%);
+  --jcb-gradient: linear-gradient(135deg, #006EB6 0%, #23A4de 100%);
+  --primary-text: #f8fafc;
+  --secondary-text: #94a3b8;
+  --accent-color: #38bdf8;
+  --dark-bg: #0f172a;
+  --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Space Mono', monospace;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.app-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.app-title h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, var(--accent-color), #60a5fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.app-title p {
+  font-size: 1rem;
+  color: var(--secondary-text);
+}
+
+.card-generator {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .card-generator {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.card-preview {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-flip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  z-index: 2;
+}
+
+.card-flip-inner {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.card-flip.flipped .card-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.credit-card {
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.credit-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPHBhdHRlcm4gaWQ9InBhdHRlcm4xIiB4PSIwIiB5PSIwIiB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgxNSkiPgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1MCIgZmlsbD0ibm9uZSIgLz4KICA8cGF0aCBkPSJNLTEwLDUwIGwtMzAsLTUwIGg2MCBsLTMwLDUwIHoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjAzIiAvPgo8L3BhdHRlcm4+CjwvZGVmcz4KPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuMSkiIC8+Cjwvc3ZnPg==') center center no-repeat;
+  background-size: cover;
+  opacity: 0.1;
+}
+
+.credit-card.visa {
+  background: var(--visa-gradient);
+}
+
+.credit-card.mastercard {
+  background: var(--mastercard-gradient);
+}
+
+.credit-card.amex {
+  background: var(--amex-gradient);
+}
+
+.credit-card.discover {
+  background: var(--discover-gradient);
+}
+
+.credit-card.jcb {
+  background: var(--jcb-gradient);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-chip {
+  height: 40px;
+  width: 55px;
+  background: linear-gradient(135deg, #daa520 0%, #f0e68c 50%, #daa520 100%);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-chip::before,
+.card-chip::after {
+  content: '';
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.card-chip::before {
+  top: 25%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.card-chip::after {
+  top: 0;
+  left: 25%;
+  width: 2px;
+  height: 100%;
+}
+
+.card-brand-logo {
+  height: 40px;
+  filter: brightness(1.2) contrast(1.2);
+}
+
+.card-number-display {
+  margin: 20px 0;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.card-holder {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-holder-label,
+.card-expiry-label {
+  font-size: 0.65rem;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.card-expiry-display {
+  font-weight: 700;
+}
+
+.card-back .credit-card {
+  position: relative;
+}
+
+.magnetic-strip {
+  width: 100%;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: 20px 0;
+}
+
+.cvv-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 4px;
+  text-align: right;
+  color: #333;
+  margin: 10px 0;
+}
+
+.card-cvv-label {
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+
+.card-cvv-display {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-type-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--accent-color);
+}
+
+.card-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.card-option {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.card-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.card-option.selected {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-color);
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon {
+  width: 60px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+.card-label {
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.card-type-radio {
+  display: none;
+}
+
+.action-buttons {
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 3;
+}
+
+.btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-generate {
+  background-color: var(--accent-color);
+  color: var(--dark-bg);
+}
+
+.btn-generate:hover {
+  background-color: #0ea5e9;
+}
+
+.btn-generate:active {
+  transform: scale(0.95);
+}
+
+.btn-copy {
+  background: linear-gradient(to right, #0ea5e9, #8b5cf6);
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+  transition: all 0.3s ease;
+  font-weight: 600;
+  position: relative;
+  z-index: 3;
+}
+
+.btn-copy:hover {
+  box-shadow: 0 0 25px rgba(14, 165, 233, 0.6);
+  transform: translateY(-3px);
+}
+
+.btn-copy:active {
+  transform: translateY(1px);
+}
+
+.btn-copy-card,
+.btn-flip {
+  background: rgba(30, 41, 59, 0.6);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 3;
+}
+
+.btn-copy-card:hover {
+  background: rgba(56, 189, 248, 0.2);
+}
+
+.btn-flip {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--primary-text);
+}
+
+.btn-flip:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.card-result {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-top: 1.5rem;
+}
+
+.result-title {
+  font-size: 1rem;
+  color: var(--secondary-text);
+  margin-bottom: 0.5rem;
+}
+
+.card-number {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  overflow-wrap: break-word;
+  color: var(--primary-text);
+}
+
+.card-number span {
+  transition: all 0.3s ease;
+}
+
+.card-number span.select-all {
+  background-color: rgba(56, 189, 248, 0.2);
+  border-radius: 4px;
+  padding: 0.25rem;
+}
+
+.card-expiry-date, .card-cvv-value {
+  font-weight: 700;
+  margin-top: 0.5rem;
+  color: var(--accent-color);
+}
+
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--secondary-text);
+  font-size: 0.8rem;
+}
+
+/* 整体布局容器样式优化 */
+.card-display-container {
+  position: relative;
+  height: 0;
+  padding-bottom: 63%; /* 基于卡片比例1.586:1计算 */
+}
+
+/* 信息区域容器样式 */
+.info-container {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.5rem;
+}
+
+/* 操作按钮区域样式 */
+.action-buttons {
+  margin-top: 1rem;
+}
+
+/* 优化卡片信息显示区域样式 */
+.card-info-display {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.3s ease-in-out;
+}
+
+/* 移动设备适配 */
+@media (max-width: 767px) {
+  .card-display-container {
+    padding-bottom: 70%; /* 移动设备上稍微增加高度 */
+    margin-bottom: 1rem;
+  }
+  
+  .info-container {
+    margin-top: 2rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons .flex {
+    justify-content: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .btn-copy {
+    width: 100%;
+  }
+}
+
+/* 增强复制成功提示样式 */
+.fixed.bg-green-500 {
+  animation: fadeInOut 2.5s ease;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  15% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+/* 自适应布局调整 */
+@media (max-width: 767px) {
+  .card-preview {
+    margin-bottom: 2rem;
+  }
+  
+  .card-flip {
+    width: 320px;
+    height: 200px;
+    margin-bottom: 3rem;
+  }
+  
+  .card-number-display {
+    font-size: 1.2rem;
+  }
+  
+  .app-title h1 {
+    font-size: 2rem;
+  }
+  
+  .card-info-display {
+    flex-direction: column;
+    margin-top: 3rem;
+  }
+  
+  .btn-copy {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .card-flip {
+    width: 280px;
+    height: 180px;
+  }
+  
+  .card-number-display {
+    font-size: 1rem;
+  }
+  
+  .card-chip {
+    height: 30px;
+    width: 40px;
+  }
+  
+  .card-brand-logo {
+    height: 30px;
+  }
+}
+
+/* 修复卡片结构和比例 */
+.credit-card {
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* 确保卡片有足够的空间和间距 */
+.card-result.credit-card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 确保结果区域在卡片下方有足够间距 */
+.result-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+
+/* 确保移动设备上有合适的间距 */
+@media (max-width: 767px) {
+  .card-flip-inner {
+    aspect-ratio: 1.586 / 1;
+  }
+  
+  .card-info-display {
+    flex-direction: column;
+    margin-top: 3rem;
+  }
+  
+  .card-flip {
+    margin-bottom: 5rem;
+  }
+  
+  .result-section {
+    padding-bottom: 3rem;
+  }
+  
+  .btn-copy {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+/* 卡片信息区域的悬停效果 */
+.card-info-display:hover {
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* 确保按钮有正确的间距 */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+} 

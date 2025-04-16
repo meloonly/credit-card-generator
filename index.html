@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>信用卡号码生成器 | 测试工具</title>
+  <meta name="description" content="生成有效的信用卡号码用于测试目的。支持Visa、万事达卡、美国运通、Discover和JCB卡。">
+  <meta name="keywords" content="信用卡号码生成器, 测试信用卡, 虚拟信用卡, 卡号验证器">
+  <!-- Use Tailwind CSS Play CDN for development -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      background-color: #0f172a;
+      background-image: radial-gradient(circle at 25% 25%, rgba(8, 145, 178, 0.15) 0%, transparent 40%), 
+                        radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+    }
+    
+    .card-input-field {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .card-input-field:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .card-input-field.selected {
+      border-color: rgba(14, 165, 233, 0.8);
+      box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3), 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .neon-border {
+      box-shadow: 0 0 8px 2px rgba(56, 189, 248, 0.3), 0 0 16px 4px rgba(99, 102, 241, 0.2);
+    }
+    
+    .neon-button {
+      background: linear-gradient(to right, #0ea5e9, #8b5cf6);
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.6);
+      transition: all 0.3s ease;
+    }
+    
+    .neon-button:hover {
+      box-shadow: 0 0 20px rgba(14, 165, 233, 0.8);
+      transform: translateY(-2px);
+    }
+    
+    .neon-button:active {
+      transform: translateY(1px);
+    }
+    
+    .credit-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1.586 / 1;
+      max-width: 420px;
+      background: linear-gradient(135deg, #1e40af, #3b82f6, #0ea5e9);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .credit-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 40%);
+      pointer-events: none;
+    }
+    
+    .credit-card.visa {
+      background: linear-gradient(135deg, #1e40af, #3b82f6, #0ea5e9);
+    }
+    
+    .credit-card.mastercard {
+      background: linear-gradient(135deg, #7e22ce, #d946ef, #f43f5e);
+    }
+    
+    .credit-card.amex {
+      background: linear-gradient(135deg, #0f766e, #2dd4bf, #0ea5e9);
+    }
+    
+    .credit-card.discover {
+      background: linear-gradient(135deg, #c2410c, #fb923c, #fdba74);
+    }
+    
+    .credit-card.jcb {
+      background: linear-gradient(135deg, #166534, #22c55e, #86efac);
+    }
+    
+    .card-flip {
+      position: relative;
+      perspective: 1000px;
+      width: 100%;
+      max-width: 420px;
+    }
+    
+    .card-flip-inner {
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    
+    .card-flip.flipped .card-flip-inner {
+      transform: rotateY(180deg);
+    }
+    
+    .card-front, .card-back {
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    
+    .card-back {
+      transform: rotateY(180deg);
+    }
+    
+    .card-magnetic-strip {
+      height: 50px;
+      background-color: rgba(0, 0, 0, 0.8);
+      position: relative;
+      top: 30px;
+      width: 100%;
+    }
+    
+    .card-cvv-band {
+      position: relative;
+      height: 40px;
+      background-color: #fff;
+      top: 50px;
+      padding: 10px;
+      text-align: right;
+    }
+    
+    .card-cvv-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      color: #000;
+    }
+    
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .visually-hidden { 
+      position: absolute; 
+      width: 1px; 
+      height: 1px; 
+      padding: 0; 
+      margin: -1px; 
+      overflow: hidden; 
+      clip: rect(0,0,0,0); 
+      border: 0; 
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col">
+  <header class="flex items-center justify-center py-8">
+    <div class="text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" aria-label="网站标志">
+      信用卡号码生成器
+    </div>
+  </header>
+
+  <main class="flex-1 flex flex-col items-center justify-center px-4 py-6">
+    <div class="w-full max-w-2xl glass-panel p-8 mb-8">
+      <section class="card-type-section mb-8">
+        <h2 id="card-type-title" class="text-2xl font-semibold mb-5 text-center text-white">选择卡类型</h2>
+        <div class="card-type-form grid grid-cols-2 sm:grid-cols-3 gap-4 justify-center" aria-label="卡类型选择">
+          <label class="relative cursor-pointer">
+            <input type="radio" name="cardType" value="visa" class="peer sr-only" checked />
+            <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
+              <img src="images/visa.svg" alt="Visa" class="h-7 w-auto" />
+              <span class="font-medium text-white">Visa</span>
+            </div>
+          </label>
+          <label class="relative cursor-pointer">
+            <input type="radio" name="cardType" value="mastercard" class="peer sr-only" />
+            <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
+              <img src="images/mastercard.svg" alt="万事达卡" class="h-7 w-auto" />
+              <span class="font-medium text-white">万事达卡</span>
+            </div>
+          </label>
+          <label class="relative cursor-pointer">
+            <input type="radio" name="cardType" value="amex" class="peer sr-only" />
+            <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
+              <img src="images/amex.svg" alt="美国运通" class="h-7 w-auto" />
+              <span class="font-medium text-white">美国运通</span>
+            </div>
+          </label>
+          <label class="relative cursor-pointer sm:col-span-2 md:col-span-1">
+            <input type="radio" name="cardType" value="discover" class="peer sr-only" />
+            <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
+              <img src="images/discover.svg" alt="Discover" class="h-7 w-auto" />
+              <span class="font-medium text-white">Discover</span>
+            </div>
+          </label>
+          <label class="relative cursor-pointer sm:col-span-2 md:col-span-1">
+            <input type="radio" name="cardType" value="jcb" class="peer sr-only" />
+            <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
+              <img src="images/jcb.svg" alt="JCB" class="h-7 w-auto" />
+              <span class="font-medium text-white">JCB</span>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <section class="generator-section mb-8 flex flex-col items-center">
+        <h2 id="generator-title" class="text-2xl font-semibold mb-5 text-center text-white">生成卡号</h2>
+        <button class="btn-generate w-full max-w-xs py-4 rounded-xl neon-button text-xl font-bold text-white transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-cyan-400/50">
+          生成
+        </button>
+      </section>
+
+      <section class="result-section flex flex-col items-center">
+        <h2 id="result-title" class="text-2xl font-semibold mb-5 text-center text-white">结果</h2>
+        
+        <!-- Card Display Area -->
+        <div class="card-display-container w-full max-w-md mx-auto mb-12 relative">
+          <div class="card-flip w-full mx-auto">
+            <div class="card-flip-inner">
+              <!-- Card Front -->
+              <div class="card-front">
+                <div class="card-result credit-card visa w-full p-6 rounded-3xl shadow-2xl flex flex-col border border-slate-600">
+                  <div class="card-logo mb-2 h-10 flex items-center">
+                    <img src="images/visa.svg" alt="卡Logo" class="h-10 w-auto card-brand-logo" />
+                  </div>
+                  <div class="card-chip w-14 h-9 mb-6 bg-yellow-300/80 rounded-md flex flex-col justify-center items-center overflow-hidden">
+                    <div class="h-1 w-full bg-yellow-600/50"></div>
+                    <div class="h-1 w-full bg-yellow-600/30"></div>
+                  </div>
+                  <div class="card-number text-center mb-6">
+                    <span class="text-3xl font-mono tracking-widest text-white select-all">•••• •••• •••• ••••</span>
+                  </div>
+                  <div class="card-details flex justify-between text-sm text-white/90">
+                    <div class="card-holder">
+                      <div class="uppercase tracking-wider mb-1 opacity-70">持卡人</div>
+                      <div>测试账户</div>
+                    </div>
+                    <div class="card-expiry">
+                      <div class="uppercase tracking-wider mb-1 opacity-70">有效期</div>
+                      <div class="card-expiry-date">12/28</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Card Back -->
+              <div class="card-back">
+                <div class="credit-card visa w-full rounded-3xl shadow-2xl flex flex-col border border-slate-600">
+                  <div class="card-magnetic-strip"></div>
+                  <div class="card-cvv-band">
+                    <span class="card-cvv-number">CVV: <span class="card-cvv-value">•••</span></span>
+                  </div>
+                  <div class="p-6 pt-16 pb-8">
+                    <div class="text-xs text-white/70 text-right mt-4">
+                      <p>授权签名</p>
+                      <div class="border-b border-white/50 w-48 ml-auto mt-2"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card Information Display Area -->
+        <div class="info-container w-full max-w-md mx-auto">
+          <!-- Display area for card information, positioned below the card to avoid overlap -->
+          <div class="card-info-display card-input-field w-full mx-auto mb-8 p-5 rounded-xl flex flex-col justify-between gap-4">
+            <div class="flex flex-col w-full">
+              <span class="text-sm text-blue-300">卡号</span>
+              <span class="card-number-display font-mono text-xl text-white">•••• •••• •••• ••••</span>
+            </div>
+            <div class="flex justify-between w-full mt-2">
+              <div class="flex flex-col">
+                <span class="text-sm text-blue-300">有效期</span>
+                <span class="card-expiry-display font-mono text-xl text-white">••/••</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm text-blue-300">CVV</span>
+                <span class="card-cvv-display font-mono text-xl text-white">•••</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Action buttons area, separate block to avoid overlap -->
+          <div class="action-buttons flex gap-4 w-full justify-between mb-6">
+            <div class="flex gap-2">
+              <button class="btn-flip p-4 rounded-full card-input-field hover:bg-slate-700/50 text-white hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-slate-400/30 flex items-center justify-center transition-all duration-200" aria-label="翻转卡片">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+              </button>
+              <button class="btn-copy-card p-4 rounded-full card-input-field hover:bg-slate-700/50 text-white hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-slate-400/30 flex items-center justify-center transition-all duration-200" aria-label="复制卡号">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+              </button>
+            </div>
+            <!-- Button to copy all card information -->
+            <button class="btn-copy w-3/4 py-3 px-6 rounded-xl neon-button text-white hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-400/30 flex items-center justify-center gap-2 transition-all duration-200" aria-label="复制所有卡信息">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-7 8h6a2 2 0 002-2V6a2 2 0 00-2-2H8a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <span>复制卡信息</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- <section class="info-section w-full max-w-xl mb-8">
+      <h2 id="info-title" class="visually-hidden">信息与警告</h2>
+      <div class="info-message flex items-center gap-2 p-4 rounded-xl bg-gradient-to-r from-orange-500/80 to-red-600/80 text-white shadow-lg border-l-4 border-red-400" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" /></svg>
+        <span>仅供测试使用。严禁非法使用。</span>
+      </div>
+    </section> -->
+  </main>
+
+  <footer class="w-full text-center py-4 text-slate-400 text-sm">
+    <small>&copy; 2025 信用卡生成器。保留所有权利。</small>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html> 
