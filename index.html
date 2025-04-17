@@ -3,9 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Credit Card Number Generator | Testing Tool</title>
-  <meta name="description" content="Generate valid credit card numbers for testing purposes. Supports Visa, MasterCard, American Express, Discover, and JCB cards.">
-  <meta name="keywords" content="credit card number generator, test credit card, dummy credit card, card number validator">
+  <title>Credit Card Number Generator | Free Testing Tool for Developers</title>
+  <meta name="description" content="Generate valid credit card numbers for testing purposes. Free tool supports Visa, MasterCard, American Express, Discover, and JCB cards. For development use only.">
+  <meta name="keywords" content="credit card number generator, test credit card, dummy credit card, card number validator, development tools, testing tools">
+  <meta name="author" content="Credit Card Generator Tool">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Credit Card Number Generator | Testing Tool">
+  <meta property="og:description" content="Generate valid credit card numbers for testing purposes. Supports multiple card types including Visa, MasterCard, American Express, Discover, and JCB.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com/credit-card-generator">
+  <meta property="og:image" content="https://yourdomain.com/images/credit-card-generator-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Credit Card Number Generator">
+  <meta name="twitter:description" content="Generate valid credit card numbers for testing purposes. For developers only.">
+  <link rel="canonical" href="https://yourdomain.com/credit-card-generator">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon.svg">
+  <link rel="apple-touch-icon" href="images/favicon/favicon.svg">
+  <meta name="theme-color" content="#0f172a">
+  
+  <!-- Preload critical assets -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" as="style">
   <!-- Use Tailwind CSS Play CDN for development -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -166,6 +187,26 @@
       border: 0; 
     }
   </style>
+  <!-- Structured data for rich snippets -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Credit Card Number Generator",
+      "applicationCategory": "DeveloperApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Generate valid credit card numbers for testing purposes. Supports multiple card types.",
+      "operatingSystem": "Any",
+      "author": {
+        "@type": "Organization",
+        "name": "Credit Card Generator Tool"
+      }
+    }
+  </script>
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWCW93S5KC"></script>
@@ -178,62 +219,62 @@
 </script>
 <body class="min-h-screen text-slate-100 flex flex-col">
   <header class="flex items-center justify-center py-8">
-    <div class="text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" aria-label="Website Logo">
+    <h1 class="text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" aria-label="Website Logo">
       Credit Card Number Generator
-    </div>
+    </h1>
   </header>
 
   <main class="flex-1 flex flex-col items-center justify-center px-4 py-6">
     <div class="w-full max-w-2xl glass-panel p-8 mb-8">
-      <section class="card-type-section mb-8">
+      <section class="card-type-section mb-8" aria-labelledby="card-type-title">
         <h2 id="card-type-title" class="text-2xl font-semibold mb-5 text-center text-white">Select Card Type</h2>
-        <div class="card-type-form grid grid-cols-2 sm:grid-cols-3 gap-4 justify-center" aria-label="Card Type Selection">
+        <div class="card-type-form grid grid-cols-2 sm:grid-cols-3 gap-4 justify-center" role="radiogroup" aria-labelledby="card-type-title">
           <label class="relative cursor-pointer">
             <input type="radio" name="cardType" value="visa" class="peer sr-only" checked />
             <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
-              <img src="images/visa.svg" alt="Visa" class="h-7 w-auto" />
+              <img src="images/visa.svg" alt="Visa" class="h-7 w-auto" loading="lazy" />
               <span class="font-medium text-white">Visa</span>
             </div>
           </label>
           <label class="relative cursor-pointer">
             <input type="radio" name="cardType" value="mastercard" class="peer sr-only" />
             <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
-              <img src="images/mastercard.svg" alt="MasterCard" class="h-7 w-auto" />
+              <img src="images/mastercard.svg" alt="MasterCard" class="h-7 w-auto" loading="lazy" />
               <span class="font-medium text-white">MasterCard</span>
             </div>
           </label>
           <label class="relative cursor-pointer">
             <input type="radio" name="cardType" value="amex" class="peer sr-only" />
             <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
-              <img src="images/amex.svg" alt="Amex" class="h-7 w-auto" />
+              <img src="images/amex.svg" alt="Amex" class="h-7 w-auto" loading="lazy" />
               <span class="font-medium text-white">Amex</span>
             </div>
           </label>
           <label class="relative cursor-pointer sm:col-span-2 md:col-span-1">
             <input type="radio" name="cardType" value="discover" class="peer sr-only" />
             <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
-              <img src="images/discover.svg" alt="Discover" class="h-7 w-auto" />
+              <img src="images/discover.svg" alt="Discover" class="h-7 w-auto" loading="lazy" />
               <span class="font-medium text-white">Discover</span>
             </div>
           </label>
           <label class="relative cursor-pointer sm:col-span-2 md:col-span-1">
             <input type="radio" name="cardType" value="jcb" class="peer sr-only" />
             <div class="card-input-field peer-checked:selected flex items-center gap-3 p-4 h-16 rounded-xl transition-all duration-200">
-              <img src="images/jcb.svg" alt="JCB" class="h-7 w-auto" />
+              <img src="images/jcb.svg" alt="JCB" class="h-7 w-auto" loading="lazy" />
               <span class="font-medium text-white">JCB</span>
             </div>
           </label>
         </div>
       </section>
 
-      <section class="generator-section mb-8 flex flex-col items-center">
+      <section class="generator-section mb-8 flex flex-col items-center" aria-labelledby="generator-title">
         <h2 id="generator-title" class="text-2xl font-semibold mb-5 text-center text-white">Generate Card Number</h2>
-        <button class="btn-generate w-full max-w-xs py-4 rounded-xl neon-button text-xl font-bold text-white transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-cyan-400/50">
+        <button class="btn-generate w-full max-w-xs py-4 rounded-xl neon-button text-xl font-bold text-white transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-cyan-400/50" aria-label="Generate new credit card number">
           Generate
         </button>
       </section>
 
-      <section class="result-section flex flex-col items-center">
+      <section class="result-section flex flex-col items-center" aria-labelledby="result-title">
         <h2 id="result-title" class="text-2xl font-semibold mb-5 text-center text-white">Result</h2>
         
         <!-- Card Display Area -->
@@ -242,16 +283,16 @@
             <div class="card-flip-inner">
               <!-- Card Front -->
               <div class="card-front">
-                <div class="card-result credit-card visa w-full p-6 rounded-3xl shadow-2xl flex flex-col border border-slate-600">
+                <div class="card-result credit-card visa w-full p-6 rounded-3xl shadow-2xl flex flex-col border border-slate-600" aria-label="Credit card front side">
                   <div class="card-logo mb-2 h-10 flex items-center">
-                    <img src="images/visa.svg" alt="Card Logo" class="h-10 w-auto card-brand-logo" />
+                    <img src="images/visa.svg" alt="Card Logo" class="h-10 w-auto card-brand-logo" loading="lazy" />
                   </div>
-                  <div class="card-chip w-14 h-9 mb-6 bg-yellow-300/80 rounded-md flex flex-col justify-center items-center overflow-hidden">
+                  <div class="card-chip w-14 h-9 mb-6 bg-yellow-300/80 rounded-md flex flex-col justify-center items-center overflow-hidden" aria-hidden="true">
                     <div class="h-1 w-full bg-yellow-600/50"></div>
                     <div class="h-1 w-full bg-yellow-600/30"></div>
                   </div>
                   <div class="card-number text-center mb-6">
-                    <span class="text-3xl font-mono tracking-widest text-white select-all">•••• •••• •••• ••••</span>
+                    <span class="text-3xl font-mono tracking-widest text-white select-all" aria-label="Credit card number">•••• •••• •••• ••••</span>
                   </div>
                   <div class="card-details flex justify-between text-sm text-white/90">
                     <div class="card-holder">
@@ -268,8 +309,8 @@
               
               <!-- Card Back -->
               <div class="card-back">
-                <div class="credit-card visa w-full rounded-3xl shadow-2xl flex flex-col border border-slate-600">
-                  <div class="card-magnetic-strip"></div>
+                <div class="credit-card visa w-full rounded-3xl shadow-2xl flex flex-col border border-slate-600" aria-label="Credit card back side">
+                  <div class="card-magnetic-strip" aria-hidden="true"></div>
                   <div class="card-cvv-band">
                     <span class="card-cvv-number">CVV: <span class="card-cvv-value">•••</span></span>
                   </div>
@@ -309,15 +350,15 @@
           <div class="action-buttons flex gap-4 w-full justify-between mb-6">
             <div class="flex gap-2">
               <button class="btn-flip p-4 rounded-full card-input-field hover:bg-slate-700/50 text-white hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-slate-400/30 flex items-center justify-center transition-all duration-200" aria-label="Flip card">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
               </button>
               <button class="btn-copy-card p-4 rounded-full card-input-field hover:bg-slate-700/50 text-white hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-slate-400/30 flex items-center justify-center transition-all duration-200" aria-label="Copy card number">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
               </button>
             </div>
             <!-- Button to copy all card information -->
             <button class="btn-copy w-3/4 py-3 px-6 rounded-xl neon-button text-white hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-400/30 flex items-center justify-center gap-2 transition-all duration-200" aria-label="Copy all card information">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-7 8h6a2 2 0 002-2V6a2 2 0 00-2-2H8a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-7 8h6a2 2 0 002-2V6a2 2 0 00-2-2H8a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
               <span>Copy Card Info</span>
             </button>
           </div>
@@ -325,19 +366,25 @@
       </section>
     </div>
 
-    <!-- <section class="info-section w-full max-w-xl mb-8">
-      <h2 id="info-title" class="visually-hidden">Info & Warning</h2>
-      <div class="info-message flex items-center gap-2 p-4 rounded-xl bg-gradient-to-r from-orange-500/80 to-red-600/80 text-white shadow-lg border-l-4 border-red-400" role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" /></svg>
-        <span>For testing purposes only. Illegal use is strictly prohibited.</span>
+    <section class="info-section w-full max-w-xl mb-8">
+      <div class="disclaimer text-center text-sm text-slate-300 max-w-lg mx-auto p-4">
+        <p>This tool generates valid credit card numbers for testing purposes only. These numbers pass validation checks but cannot be used for real transactions.</p>
+        <p class="mt-2">For developers, testers, and educational use only.</p>
       </div>
-    </section> -->
+    </section>
   </main>
 
   <footer class="w-full text-center py-4 text-slate-400 text-sm">
     <small>&copy; 2025 Credit Card Generator. All rights reserved.</small>
+    <nav class="mt-2">
+      <ul class="flex justify-center gap-4 text-xs">
+        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+        <li><a href="#" class="hover:text-white">Terms of Use</a></li>
+        <li><a href="#" class="hover:text-white">Contact</a></li>
+      </ul>
+    </nav>
   </footer>
   
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html> 
