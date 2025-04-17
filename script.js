@@ -7,7 +7,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const generateBtn = document.querySelector('.btn-generate');
   const copyBtn = document.querySelector('.btn-copy');
-  const copyCardBtn = document.querySelector('.btn-copy-card');
   const flipBtn = document.querySelector('.btn-flip');
   const cardResult = document.querySelector('.card-number span');
   const cardNumberDisplay = document.querySelector('.card-number-display');
@@ -40,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 绑定事件监听器
   generateBtn.addEventListener('click', generateCardNumber);
   copyBtn.addEventListener('click', copyToClipboard); // 复制所有卡信息按钮
-  copyCardBtn.addEventListener('click', copyCardNumber); // 仅复制卡号按钮
   flipBtn.addEventListener('click', flipCard);
   
   // 为每个卡类型选项添加点击事件监听器
@@ -409,34 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(err => {
         console.error('Failed to copy card details:', err);
-        alert('Copy failed. Please select and copy manually.');
-      });
-  }
-  
-  /**
-   * 仅复制卡号到剪贴板
-   */
-  function copyCardNumber() {
-    // 如果还没有生成卡号，提示用户先生成一个
-    if (!currentCardData.number) {
-      alert('Please generate a card number first.');
-      return;
-    }
-    
-    // 仅复制卡号，使用JSON格式
-    const copyData = {
-      card_number: currentCardData.number.replace(/\s/g, '')
-    };
-    
-    const jsonString = JSON.stringify(copyData, null, 2);
-    
-    navigator.clipboard.writeText(jsonString)
-      .then(() => {
-        // 显示复制成功动画
-        showCopySuccessAnimation('Card number copied to clipboard (JSON format)');
-      })
-      .catch(err => {
-        console.error('Failed to copy card number:', err);
         alert('Copy failed. Please select and copy manually.');
       });
   }
